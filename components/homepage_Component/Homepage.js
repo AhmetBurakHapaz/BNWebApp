@@ -46,7 +46,7 @@ class Homepage extends Component {
                       Sen de Benimki Nerede ürünlerinden edin.
                     </p>
                     <Button size="large" href="products">
-                      <a>SİPARİŞ VER!</a>{" "}
+                      SİPARİŞ VER!{" "}
                     </Button>
                   </Col>
                   <Col lg={6} md={12}>
@@ -67,12 +67,12 @@ class Homepage extends Component {
               <Card style={{ margin: "20px" }}>
                 <Row>
                   <Col lg={18} md={36}>
-                    <h2 style={{ marginBottom: "30px" }}>Sen de Bize Katıl!</h2>
+                    <h2 style={{ marginBottom: "30px" }}>Bizimle İletişime Geç!</h2>
                     <p style={{ marginBottom: "20px" }}>
-                      Sen de uygulamayı yükle ve Benimki Nerede ailesine katıl.
+                      Bazı sorunlar mı yaşıyorsun. Bizimle iletişime geçebilirsin !
                     </p>
-                    <Button size="large">
-                      <Signup />
+                    <Button href="/contact" size="large">
+                      İLETİŞİME GEÇ
                     </Button>
                   </Col>
                   <Col lg={6} md={12}>

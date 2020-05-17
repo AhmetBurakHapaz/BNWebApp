@@ -14,7 +14,7 @@ const AnimatedBG = styled.div`
     display: block;
     width: 20px;
     height: 20px;
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 50, 0.5);
     animation: spin 50s linear infinite;
     bottom: -120px;
   }

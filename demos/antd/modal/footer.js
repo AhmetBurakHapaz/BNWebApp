@@ -1,4 +1,7 @@
-import { Modal, Button } from 'antd';
+import { Modal, Button, Avatar } from 'antd';
+import { List} from "antd";
+import  { Notification } from "../../../components/styles/Header";
+
 
 class App extends React.Component {
   state = {
@@ -35,6 +38,7 @@ class App extends React.Component {
           title="Title"
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          width="800px"
           footer={[
             <Button key="back" onClick={this.handleCancel}>
               Return
@@ -44,11 +48,21 @@ class App extends React.Component {
             </Button>
           ]}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <List
+                  itemLayout="horizontal"
+                  >
+                      <List.Item>
+                        <List.Item.Meta
+                          avatar={<Avatar size={100} src="/static/images/face3.jpg" />}
+                          title={<h1 href="javascript:;"> Ahmet Burak Hapaz</h1>}
+                          description={<medium> den55@gmail.com</medium>}
+                        />
+                      </List.Item>
+                      <List.Item>
+                        ARAB ATI
+                      </List.Item>
+                 
+                </List>
         </Modal>
       </div>
     );

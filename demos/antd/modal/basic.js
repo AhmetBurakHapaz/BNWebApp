@@ -33,9 +33,9 @@ class App extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <p>Some conasdsasadadstents...</p>
+          <p>Some consadasadsadtents...</p>
+          <p>Soasdsaddsadsa.</p>
         </Modal>
       </div>
     );

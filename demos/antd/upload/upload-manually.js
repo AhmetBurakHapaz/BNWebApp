@@ -19,25 +19,7 @@ class Demo extends React.Component {
     });
 
     // You can use any AJAX library you like
-    reqwest({
-      url: '//jsonplaceholder.typicode.com/posts/',
-      method: 'post',
-      processData: false,
-      data: formData,
-      success: () => {
-        this.setState({
-          fileList: [],
-          uploading: false
-        });
-        message.success('upload successfully.');
-      },
-      error: () => {
-        this.setState({
-          uploading: false
-        });
-        message.error('upload failed.');
-      }
-    });
+    
   };
 
   render() {

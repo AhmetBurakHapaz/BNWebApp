@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import postToken from "../../lib/api/postStockView";
+import postStockView from "../../lib/api/postStockView";
 
 export const StockView = stock => {
   return {
@@ -8,10 +8,9 @@ export const StockView = stock => {
   };
 };
 
-export function postStockView(obj) {
+export function StockViewPage(obj) {
   return function(dispatch) {
-    postToken(obj).then(res => {
-      console.log(res);
+    postStockView(obj).then(res => {
       dispatch(StockView(res));
     });
   };

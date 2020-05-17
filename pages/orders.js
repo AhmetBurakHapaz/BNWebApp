@@ -8,40 +8,10 @@ class orderPage extends Component {
         return (
         <div>
           <Header> </Header>
-            <Row gutter={16} id="components-button-demo">
+            <Row gutter={16} id="components-button-demo">              
                 <Col lg={6} md={12}>
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
                         <OrderOne/>
-                    </Card>   
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                </Col>
-                <Col lg={6} md={12}>
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                </Col>
-                <Col lg={6} md={12}>
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                </Col>
-                <Col lg={6} md={12}>
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                    <Card bodyStyle={{ padding: 0 }} style={{ marginBottom:'20px'}}>
-                        <OrderOne/>
-                    </Card> 
-                </Col>
-                
+                </Col>  
             </Row>
         </div>
           

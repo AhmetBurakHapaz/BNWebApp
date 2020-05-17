@@ -12,7 +12,8 @@ import {
     Dropdown,
     Menu,
     Row,
-    Col
+    Col,
+    message
   } from 'antd';
   import {
     DiscreteColorLegend,
@@ -29,6 +30,12 @@ import {
   import Donut_chart from './Donut_chart'
   import SalesAnalysis from './SalesAnalysis'
   import{ Component } from 'react';
+
+  import { connect } from "react-redux";
+  import { bindActionCreators } from "redux";
+  import * as profileViewActions  from '../../redux/actions/profileViewActions'
+  import Router from "next/router"
+
   const { MonthPicker } = DatePicker;
   
   const axes = Array.from(Array(12).keys());
@@ -42,6 +49,11 @@ import {
     });
     return arr;
   };
+
+  const error = () => {
+    message.error("Bu sayfaya girme iznine sahip değilsiniz");
+  };
+  
   
   const series = [
     {
@@ -102,15 +114,39 @@ import {
     </Menu>
   );
   
-  class Overview extends Component{
+  class salesStatus extends Component{
+
+    componentDidMount()
+    {
+      setTimeout(() => {
+        if(this.props.profiledata.role_lvl !=5)
+        {
+          Router.push("/homepage") 
+        }
+      }, 700);
+    }
     render() {
       return (
         <div>    
             <SalesAnalysis/>
-            <Donut_chart/>
         </div>
       );
     }
   }
   
-  export default Overview;
+  function mapStateToProps(state) {
+    return {
+      profiledata : state.profileViewReducer,
+    };
+  }
+  function mapDispatchToProps(dispatch) {
+    return {
+      actions: {
+        profilePage: bindActionCreators(profileViewActions.ProfileInformation, dispatch), 
+      }
+    };
+  }
+  //actions aldik*/
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(salesStatus);
+  

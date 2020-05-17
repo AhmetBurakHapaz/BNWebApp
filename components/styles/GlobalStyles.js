@@ -21,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   #__next > .ant-spin-nested-loading > .ant-spin-blur:after {
-    opacity: .8;
+    opacity: 1;
   }
 
   html {

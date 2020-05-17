@@ -15,7 +15,7 @@ export default initialState => {
     const persistConfig = {
       key: "root",
       storage,
-      whitelist: ["authReducer"],
+      whitelist: ["authReducer","cartReducer"],
       blacklist: ["registerReducer"]
     };
     store = createStore(

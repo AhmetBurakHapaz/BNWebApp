@@ -1,23 +1,26 @@
-import ProfileCard from '../components/profile_page_Component/ProfileCard';
-import Header from '../components/styles/Header'
-import { Component } from 'react'
-import { Row, Col } from 'antd'
-
-
+import ProfileCard from "../components/profile_page_Component/ProfileCard";
+import { Component } from "react";
+import { Row, Col } from "antd";
+import Media from "react-media";
 class profilePage extends Component {
-    render() {
-        return (
-            <div>
-                <Header> </Header>
-                <Row>
-                <Col lg={4} md={1}> 
-                    </Col>
-                    <Col lg={16} md={22}>
-                        <ProfileCard />
-                    </Col>
-                </Row>
-            </div>
-        )
-    }
+  render() {
+    return (
+        <Media query={{ minWidth: 1200 }}>
+        {matches =>
+          matches ? (
+              <Row>
+            <Col md={5}> </Col>
+              <Col md={14}>
+            <ProfileCard/>
+            </Col>
+            </Row>
+          ) : (
+            <ProfileCard/>
+          )
+        }
+      </Media>
+
+    );
+  }
 }
 export default profilePage;

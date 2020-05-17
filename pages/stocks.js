@@ -1,26 +1,5 @@
-import Header from '../components/styles/Header'
-import { Card, Col, Row, } from 'antd'
-import { Component } from 'react'
+import StockView from '../components/stock_page_Component/ProductStock';
 
-import ProductStocked from '../components/stock_view_page_Component/ProductStock'
+const Stocks = () => <StockView />;
 
-class stockView extends Component {
-    render() {
-        return (
-        <div>
-          <Header> </Header>
-            <ProductStocked/>
-            <ProductStocked/>
-            <ProductStocked/>
-            <ProductStocked/>
-            <ProductStocked/>
-            <ProductStocked/>
-            <ProductStocked/>
-            <ProductStocked/>
-          </div>
-          
-          );
-        }
-      }
-      
-  export default stockView
+export default Stocks;

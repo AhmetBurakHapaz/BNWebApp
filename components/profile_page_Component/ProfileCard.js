@@ -1,77 +1,135 @@
-import { Card, Divider, Col, Row } from 'antd';
-import { Button, Input } from 'antd';
-import { Component } from 'react'
-import { List, Avatar } from 'antd';
-import {
-    Star
-  } from 'react-feather';
+import { Card, Divider, Col, Row } from "antd";
+import { Button, Input } from "antd";
+import { Component } from "react";
+import { List, Avatar, Dropdown } from "antd";
+import { Star } from "react-feather";
+import Media from "react-media";
+import Router from "next/router";
 
-const data = [
-    {
-      title: <a href="#">Sepetim</a>
-      
-    },
-    {
-      title: <a href="#">Adres Bilgilerim</a>
-    },
-    {
-      title: <a href="#">Ayarlarım</a>
-    }
+import { getConnectionLink } from "../../lib/connector";
+import { connect } from "react-redux";
+import * as authActions from "../../redux/actions/authActions";
+import { bindActionCreators } from "redux";
+import * as profileViewActions from "../../redux/actions/profileViewActions";
+import Settings from "./Settings"
 
-  ];
-
-class ProfileCard extends Component{
-    render() {
-        return(
-            <div>
-            <Card 
-            title="Profilim"
-            style={{marginTop:'10px'}}>
-                <Row>
-                    <Col lg={16} md={32}>
-                    <Col lg={8} md={16} style={{marginBottom:'50px', float:'center'}}>
-                        <img src="https://www.scripturaengage.com/wp-content/uploads/2017/05/Profile-Picture-Toon-Wouters-circle-ScripturaEngage.png" alt="profilelogo1"/>
-
-                    </Col>
-                    <Col lg={4} md={8}>
-
-                    </Col>
-                    <Col lg={12} md={24} style={{marginTop:'10px'}}>
-                        <h2 style={{marginBottom:'30px'}}>John Doe</h2>
-                        <p>E-Mail : johndoe@gmail.com</p>
-                        <p>Adres : Sallabaşı Cad. 23/4 Kadıköy/İst</p>
-                        <p>Posta Numarası : HASJ49FM</p>
-                        <p>Telefon : 0533 333 33 33</p>
-                        
-                        <Button type="primary" style={{marginTop:"50px"}}>BİLGİLERİ DÜZENLE</Button>
-                        
-                    </Col>
-                    </Col>
-                    <Col lg={8} md={16}>
-                    <List
-                                itemLayout="horizontal"
-                                dataSource={data}
-                                renderItem={item => (
-                                <List.Item>
-                                    <List.Item.Meta
-                                    avatar={
-                                        <Star size={20} strokeWidth={1} />
-                                    }
-                                    title={<a href="https://ant.design">{item.title}</a>}
-                                   
-                                    />
-                                </List.Item>
-                                )}
-                            />
-                    </Col>
-                </Row>
-                
-               
-      
-      
-            </Card>
-        </div>
+class ProfileCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      profileInfo: [],
+      loaded: false,
+    };
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      if(this.props.currentToken =="")
+      {
+        Router.push("/homepage") 
+      }
+    }, 700);
+    if (this.props.currentToken != "") {
+      if (this.props.profile_data == "") {
+        var paramsNames = ["token"];
+        var paramsValues = [this.props.currentToken];
+        var obj = getConnectionLink(
+          "profile",
+          paramsNames,
+          paramsValues,
+          "POST"
         );
+        this.props.actions.profilePage(obj);
+
+      } else {
+        this.setState(
+          { profileInfo: this.props.profile_data, loaded: true },
+          function() {
+          }
+        );
+      }
+    } else {
+      setTimeout(() => {
+        var paramsNames = ["token"];
+        var paramsValues = [this.props.currentToken];
+        var obj = getConnectionLink(
+          "profile",
+          paramsNames,
+          paramsValues,
+          "POST"
+        );
+        this.props.actions.profilePage(obj);
+      }, 500);
     }
+  }
+  componentDidUpdate() {
+    if (this.props.currentToken == "")
+    {
+      Router.push("/homepage");
+    }
+    if (this.props.profile_data != "" && !this.state.loaded) {
+      this.setState(
+        { profileInfo: this.props.profile_data, loaded: true },
+        function() {
+        }
+      );
+    }
+  }
+  render() {
+    var tit = []
+    tit.push("Hoşgeldin ")
+    tit.push(this.state.profileInfo.user_real_name)
+    return (
+      <div>
+        <Card 
+        extra={
+            <Settings/>
+          }
+        title={tit}  style={{ marginTop: "10px", padding: "7px"}}>
+          <Row>
+            <Col lg={6} md={12}>
+              <div className="text-center mb-4">
+                <Avatar src={this.state.profileInfo.user_img} size={180} />
+              </div>
+            </Col>
+            <Col lg={1} md={2}></Col>
+            <Col lg={11} md={22} style={{ marginTop: "10px" }}>
+              <h2 style={{ marginBottom: "30px" }}>
+                {this.state.profileInfo.user_real_name}{" "}
+                {this.state.profileInfo.user_surname}
+              </h2>
+              <p>E-Mail : {this.state.profileInfo.user_mail}</p>
+              <p>Telefon : {this.state.profileInfo.user_phone}</p>
+              <Col md={24} lg={24}></Col>
+              <Button type="primary">
+                BİLGİLERİ DÜZENLE
+              </Button>
+              </Col>
+          </Row>
+        </Card>
+      </div>
+    );
+  }
 }
-export default ProfileCard;
+
+function mapStateToProps(state) {
+  return {
+    profile_data: state.profileViewReducer,
+    currentToken: state.authReducer,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      profilePage: bindActionCreators(
+        profileViewActions.ProfileInformation,
+        dispatch
+      ),
+      loginUser: bindActionCreators(authActions.loginUser, dispatch),
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileCard);
+
+
+

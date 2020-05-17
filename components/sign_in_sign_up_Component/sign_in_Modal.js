@@ -10,16 +10,11 @@ import { message } from "antd";
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
-
-const warning = () => {
-  message.warning("Lütfen tüm zorunlu alanları doldurun.");
-};
-const success = () => {
-  message.success("Başarıyla Giriş Yapıldı.");
-};
-
 const error = () => {
-  message.error("This is a message of error");
+  message.error("Hatalı Giriş Yapıldı!");
+};
+const firstVerification = () => {
+  message.error("Önce Hesabınızı Aktif Ediniz!");
 };
 
 const UserModal = Form.create()(
@@ -30,25 +25,23 @@ const UserModal = Form.create()(
         visible:false,
         logged:false,
       }
-      const visible = this.props.visible;
+    }
+
+    componentDidMount() {
+      var visible = this.props.visible;
       this.setState({visible},function(){
-        visible = this.state;
+        visible = this.state.visible;
       });
     }
     submit(err) {
       if (!err) {
-        var paramsNames = ["email", "password"];
-        //console.log(this.state.email)
+        var paramsNames = ["email", "password","loginType"];
         var hash = md5(password.value);
-        console.log(hash);
-        var paramsValues = [email.value, hash];
-        //console.log(email.value);
+        var paramsValues = [email.value, hash, "web" ];
         var obj = getConnectionLink("login", paramsNames, paramsValues, "POST");
         this.props.loginUser(obj);
-        //location.reload()
-        //Router.push("/iletisim")
       } else {
-        warning();
+        error();
       }
     }
 
@@ -57,8 +50,6 @@ const UserModal = Form.create()(
         const visible= this.props.visible;
         this.setState({visible})
       } else if(this.props.currentToken != "" && !this.state.logged){
-        console.log("giris ypatin andaval");
-        console.log(this.props.currentToken)
         this.setState({visible:false,logged:true});
       }
     }
@@ -82,17 +73,18 @@ const UserModal = Form.create()(
                   form.validateFields((err, values) => this.submit(err));
                 }}
               >
-                <FormItem label="Email">
+                <FormItem label="Email:">
                   {form.getFieldDecorator("email", {
                     rules: [
                       {
                         type: "email",
-                        message: "The input is not valid E-mail!"
+                        message: 'Email Bölümü Boş Bırakılamaz!'
                       },
                       {
                         required: true,
-                        message: "Please input your E-mail!"
-                      }
+                        message: "Lütfen Email Formatında Giriniz!"
+                      },
+                      
                     ]
                   })(
                     <Input
@@ -104,7 +96,7 @@ const UserModal = Form.create()(
                         />
                       }
                       type="email"
-                      placeholder="Email"
+                      placeholder="Email giriniz"
                       onChange={e => {
                         this.setState({ [e.target.name]: e.target.value });
                       }}
@@ -112,12 +104,12 @@ const UserModal = Form.create()(
                   )}
                 </FormItem>
 
-                <FormItem label="Password">
+                <FormItem label="Şifre:">
                   {form.getFieldDecorator("password", {
                     rules: [
                       {
                         required: true,
-                        message: "Please input your Password!"
+                        message: "Lütfen Şifrenizi Giriniz!"
                       }
                     ]
                   })(
@@ -130,14 +122,13 @@ const UserModal = Form.create()(
                         />
                       }
                       type="password"
-                      placeholder="Password"
+                      placeholder="Şifre giriniz"
                       onChange={e => {
                         this.setState({ [e.target.name]: e.target.value });
                       }}
                     />
                   )}
-                </FormItem>
-
+                </FormItem>         
                 <FormItem>
                   <Button
                     type="primary"
@@ -145,9 +136,12 @@ const UserModal = Form.create()(
                     block
                     className="mt-3"
                   >
-                    Log in
+                    GİRİŞ YAP
                   </Button>
                 </FormItem>
+                <div style={{textAlign:"center"}}>
+                  <a href="/forgotpassword">Şifremi Unuttum!</a>
+                </div>
               </Form>
             </TabPane>
             <TabPane tab="Kayıt Ol" key="2">

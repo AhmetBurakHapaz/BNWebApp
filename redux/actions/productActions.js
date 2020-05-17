@@ -11,7 +11,6 @@ export const ProductInformation = product => {
 export function ProductPage(obj) {
   return function(dispatch) {
     postProductList(obj).then(res => {
-      console.log(res);
       dispatch(ProductInformation(res));
     });
   };

@@ -10,7 +10,9 @@ import {
   Popconfirm,
   Row,
   Switch,
-  Tooltip
+  Tooltip,
+  message,
+  Icon
 } from 'antd';
 import { Book, LogOut, Triangle } from 'react-feather';
 import { capitalize, lowercase } from '../lib/helpers';
@@ -22,6 +24,17 @@ import Link from 'next/link';
 import Routes from '../lib/routes';
 import { useAppState } from './shared/AppProvider';
 import { withRouter } from 'next/router';
+import Router from 'next/router'
+
+import ProfileSettings from "./profile_page_Component/ProfileSettings";
+//react hooks
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
+import { loginUser } from "../redux/actions/authActions";
+
+import { ProfileInformation } from "../redux/actions/profileViewActions";
+import { logoutUser } from "../redux/actions/logoutActions";
 
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
@@ -34,13 +47,9 @@ const getKey = (name, index) => {
   return key.charAt(0).toLowerCase() + key.slice(1);
 };
 
-const UserMenu = (
-  <Menu>
-    <Menu.Item>Settings</Menu.Item>
-    <Menu.Item>Profile</Menu.Item>
-    <Menu.Item>Notifications</Menu.Item>
-  </Menu>
-);
+const success = () => {
+  message.success("Başarılı bir şekilde çıkış yapıldı");
+};
 
 const SidebarContent = ({
   sidebarTheme,
@@ -53,9 +62,18 @@ const SidebarContent = ({
   const [openKeys, setOpenKeys] = useState([]);
   const [appRoutes] = useState(Routes);
   const { pathname } = router;
-
+  
+  const token = useSelector((state) => state.authReducer);
+  const profile = useSelector((state) => state.profileViewReducer);
+  const dispat = useDispatch();
   const badgeTemplate = badge => <Badge count={badge.value} />;
 
+  const logout = () =>
+  {
+    dispat(logoutUser());
+    success();
+    window.location.reload(false)
+  }
   useEffect(() => {
     appRoutes.forEach((route, index) => {
       const isCurrentPath =
@@ -158,11 +176,7 @@ const SidebarContent = ({
       />
       <div className={`py-3 px-4 bg-${sidebarTheme}`}>
         <Row type="flex" align="middle" justify="space-around">
-          <Dropdown overlay={UserMenu}>
-            <span>
               <Badge
-                count={6}
-                overflowCount={5}
                 style={{
                   color: 'rgb(245, 106, 0)',
                   backgroundColor: 'rgb(253, 227, 207)'
@@ -171,32 +185,21 @@ const SidebarContent = ({
                 <Avatar
                   shape="circle"
                   size={40}
-                  src="/static/images/avatar.jpg"
+                  src={profile.user_img}
                 />
               </Badge>
-            </span>
-          </Dropdown>
           {!collapsed && (
             <>
               <span className="mr-auto" />
-              <Link href="https://one-readme.fusepx.com">
-                <a
-                  className={`px-3 ${
-                    sidebarTheme === 'dark' ? 'text-white' : 'text-body'
-                  }`}
-                >
-                  <Tooltip title="Help">
-                    <Book size={20} strokeWidth={1} />
-                  </Tooltip>
-                </a>
-              </Link>
+              
 
               <Popconfirm
                 placement="top"
-                title="Are you sure you want to sign out?"
-                onConfirm={() => router.push('/signin')}
-                okText="Yes"
-                cancelText="Cancel"
+                title="Çıkmak istediğinize emin misiniz?"
+                onConfirm={() => logout()}
+                okText="Evet"
+                cancelText="Vazgeç"
+                icon={<Icon type="logout-o" style={{ color: 'red' }} />}
               >
                 <a
                   className={`px-3 ${
@@ -249,14 +252,15 @@ const SidebarContent = ({
                 <Header>
                   <Link href="/">
                     <a className="brand">
-                      <Triangle size={24} strokeWidth={1} />
+                    <img src="../static/images/bnLogo.png" style={{maxWidth:"50px",maxHeigth:"50px" }} alt="logo"/>
                       <strong
                         className="mx-1"
                         css={`
                           display: inline;
+                          color:black;
                         `}
                       >
-                        {state.name}
+                        BN Yönetim Paneli
                       </strong>
                     </a>
                   </Link>
@@ -404,4 +408,11 @@ const SidebarContent = ({
   );
 };
 
-export default withRouter(SidebarContent);
+const mapStateToProps = (state) => ({
+  currentToken: state.authReducer,
+  profile: state.profileViewReducer,
+});
+
+const mapDispatchToProps = { loginUser, ProfileInformation, logoutUser  };
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SidebarContent));

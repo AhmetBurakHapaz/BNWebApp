@@ -11,7 +11,6 @@ export const register = register => {
 export function registerUser(obj) {
   return function(dispatch) {
     postRegister(obj).then(res => {
-      console.log(res);
       dispatch(register(res));
     });
   };

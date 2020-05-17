@@ -30,13 +30,13 @@ import {
   import{ Component } from 'react';
   const { MonthPicker } = DatePicker;
   
-  const axes = Array.from(Array(12).keys());
+  const axes = Array.from(Array(30).keys());
   
   //random data for graphic.
   const generate = () => {
     let arr = [];
     axes.map(x => {
-      const y = Math.floor(Math.random() * 10) + 1;
+      const y =  0.4;
       arr.push({ x, y });
     });
     return arr;

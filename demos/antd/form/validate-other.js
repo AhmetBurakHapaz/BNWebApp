@@ -147,7 +147,7 @@ class Demo extends React.Component {
               valuePropName: 'fileList',
               getValueFromEvent: this.normFile
             })(
-              <Upload.Dragger name="files" action="/upload.do">
+              <Upload.Dragger name="files" >
                 <p className="ant-upload-drag-icon">
                   <Icon type="inbox" />
                 </p>

@@ -20,17 +20,17 @@ const selectAfter = (
 const Component = () => (
   <div>
     <div style={{ marginBottom: 16 }}>
-      <Input addonBefore="Http://" addonAfter=".com" defaultValue="mysite" />
+      <Input addonBefore="Http://" addonAfter=".com" defaultValue="mysiasdasdte" />
     </div>
     <div style={{ marginBottom: 16 }}>
       <Input
         addonBefore={selectBefore}
         addonAfter={selectAfter}
-        defaultValue="mysite"
+        defaultValue="mysiasdasdasdte"
       />
     </div>
     <div style={{ marginBottom: 16 }}>
-      <Input addonAfter={<Icon type="setting" />} defaultValue="mysite" />
+      <Input addonAfter={<Icon type="setting" />} defaultValue="mysiasddasdte" />
     </div>
   </div>
 );
