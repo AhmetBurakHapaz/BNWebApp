@@ -12,7 +12,7 @@
     "jwt-decode": "^2.2.0",
     "local-storage": "^2.0.0",
     "md5": "^2.2.1",
-    "next": "8.0.4",
+    "next": "9.3.2",
     "react": "16.8.6",
     "react-credit-card-input": "^1.1.5",
     "react-dom": "16.8.6",
